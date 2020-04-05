@@ -14,19 +14,28 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
+/**
+ * Тестирование веб-сервиса на предмет аутентификации.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-public class ApplicationTests {
+public class LdapWebTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void loginWithValidUserThenAuthenticated() throws Exception {
+    public void loginWithValidUserThenAuthenticatedJohn() throws Exception {
         SecurityMockMvcRequestBuilders.FormLoginRequestBuilder login = formLogin().user("john").password("secret");
         mockMvc.perform(login).andExpect(authenticated().withUsername("john"));
+    }
+
+    @Test
+    public void loginWithValidUserThenAuthenticatedJihn() throws Exception {
+        SecurityMockMvcRequestBuilders.FormLoginRequestBuilder login = formLogin().user("jihn").password("secret");
+        mockMvc.perform(login).andExpect(authenticated().withUsername("jihn"));
     }
 
     @Test
@@ -34,6 +43,4 @@ public class ApplicationTests {
         SecurityMockMvcRequestBuilders.FormLoginRequestBuilder login = formLogin().user("invalid").password("invalidpassword");
         mockMvc.perform(login).andExpect(unauthenticated());
     }
-
-
 }

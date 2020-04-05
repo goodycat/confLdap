@@ -12,6 +12,9 @@ import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 
 import java.util.Collections;
 
+/**
+ * Класс конфигурации, работает над обеспечением аутентификации.
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -22,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/managers").hasRole("MANAGERS")
                 .antMatchers("/employees").hasRole("EMPLOYEES")
+                .antMatchers("/developers").hasRole("DEVELOPERS")
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin();
@@ -35,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .groupSearchBase("ou=groups")
                 .contextSource(contextSource())
                 .passwordCompare()
-                .passwordEncoder(new LdapShaPasswordEncoder())
+//                .passwordEncoder(new LdapShaPasswordEncoder())
                 .passwordAttribute("userPassword");
     }
 
@@ -46,8 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DefaultSpringSecurityContextSource contextSource() {
-        return  new DefaultSpringSecurityContextSource(
+        return new DefaultSpringSecurityContextSource(
                 Collections.singletonList("ldap://localhost:12345"), "dc=memorynotfound,dc=com");
     }
-
 }

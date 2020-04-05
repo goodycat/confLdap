@@ -1,23 +1,18 @@
 package org.ldap.entity;
 
 public class Person {
-    private String fullName;
+    private String name;
     private String lastName;
 
     public Person() {
     }
 
-    public Person(String fullName, String lastName) {
-        this.fullName = fullName;
-        this.lastName = lastName;
+    public String getName() {
+        return name;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLastName() {
@@ -31,7 +26,7 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "fullName='" + fullName + '\'' +
+                "fullName='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
     }

@@ -12,13 +12,15 @@ import org.springframework.ldap.support.LdapUtils;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 import java.util.List;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
+/**
+ * Репозиторий формирует запросы к ресурсу.
+ */
 @Service
 public class PersonRepository {
     private static final Integer THREE_SECONDS = 3000;
@@ -26,7 +28,16 @@ public class PersonRepository {
     @Autowired
     private LdapTemplate ldapTemplate;
 
-    public List<Person> getPersonNamesByLastName(String lastName) {
+    public List<Person> getAllPersons() {
+        return ldapTemplate.search(query()
+                .where("objectclass").is("person"), new PersonAttributesMapper());
+    }
+
+    public Person findPerson(String dn) {
+        return ldapTemplate.lookup(dn, new PersonAttributesMapper());
+    }
+
+    public List<Person> getAnyPersonsLikeName(String name) {
         LdapQuery query = query()
                 .searchScope(SearchScope.SUBTREE)
                 .timeLimit(THREE_SECONDS)
@@ -34,26 +45,13 @@ public class PersonRepository {
                 .attributes("cn")
                 .base(LdapUtils.emptyLdapName())
                 .where("objectclass").is("person")
-                .and("sn").not().is(lastName)
-                .and("sn").like("j*hn")
+                .and("sn").like(name)
                 .and("uid").isPresent();
 
         return ldapTemplate.search(query, new PersonAttributesMapper());
     }
 
-        public List<Person> getPersonNamesByLastName2(String lastName) {
-
-            SearchControls sc = new SearchControls();
-            sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            sc.setTimeLimit(THREE_SECONDS);
-            sc.setCountLimit(10);
-            sc.setReturningAttributes(new String[]{"cn"});
-
-            String filter = "(&(objectclass=person)(sn=" + lastName + "))";
-            return ldapTemplate.search(LdapUtils.emptyLdapName(), filter, sc, new PersonAttributesMapper());
-        }
-
-    public List<Person> getPersonNamesByLastName3(String lastName) {
+    public List<Person> getPersonsByName(String name) {
         SearchControls sc = new SearchControls();
         sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
         sc.setTimeLimit(THREE_SECONDS);
@@ -62,26 +60,21 @@ public class PersonRepository {
 
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", "person"));
-        filter.and(new EqualsFilter("sn", lastName));
+        filter.and(new EqualsFilter("sn", name));
 
         return ldapTemplate.search(LdapUtils.emptyLdapName(), filter.encode(), sc, new PersonAttributesMapper());
     }
 
-
-
     /**
      * Custom person attributes mapper, maps the attributes to the person POJO
      */
-    private class PersonAttributesMapper implements AttributesMapper<Person> {
+    private static class PersonAttributesMapper implements AttributesMapper<Person> {
         @Override
         public Person mapFromAttributes(Attributes attrs) throws NamingException {
             Person person = new Person();
-            person.setFullName((String) attrs.get("cn").get());
-
-            Attribute sn = attrs.get("sn");
-            if (sn != null) {
-                person.setLastName((String) sn.get());
-            }
+            String[] name = ((String) attrs.get("cn").get()).split(" ");
+            person.setName(name[0]);
+            person.setLastName(name[1]);
             return person;
         }
     }

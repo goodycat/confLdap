@@ -15,14 +15,25 @@ objectclass: organizationalUnit
 ou: people
 
 #Люди
+dn: uid=jahn,ou=people,dc=memorynotfound,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Jackson Dae
+sn: Jackson
+uid: jackson
+password: secret
+
 dn: uid=john,ou=people,dc=memorynotfound,dc=com
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
 cn: John Doe
+sn: John
 uid: john
-userPassword: {SHA}5en6G6MezRroT3XKqkdPOmY/BfQ=
+userPassword: secret
 
 dn: uid=jihn,ou=people,dc=memorynotfound,dc=com
 objectclass: top
@@ -32,18 +43,7 @@ objectclass: inetOrgPerson
 cn: Jihn Die
 sn: Jihn
 uid: jihn
-password: {SHA}5en6G6MezRroT3XKqkdPOmY/BfQ=
-
-dn: uid=jahn,ou=people,dc=memorynotfound,dc=com
-objectclass: top
-objectclass: person
-objectclass: organizationalPerson
-objectclass: inetOrgPerson
-cn: Jahn Dae
-sn: Jahn
-uid: jahn
-password: {SHA}5en6G6MezRroT3XKqkdPOmY/BfQ=
-
+userPassword: secret
 #Группы
 dn: cn=developers,ou=groups,dc=memorynotfound,dc=com
 objectclass: top

@@ -1,3 +1,4 @@
+#Сервер
 dn: dc=memorynotfound,dc=com
 objectclass: top
 objectclass: domain
@@ -14,6 +15,16 @@ objectclass: top
 objectclass: organizationalUnit
 ou: people
 
+#Люди
+dn: uid=jahn,ou=people,dc=memorynotfound,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Jackson Dae
+sn: Jackson
+uid: jackson
+password: secret
 
 dn: uid=john,ou=people,dc=memorynotfound,dc=com
 objectclass: top
@@ -21,10 +32,21 @@ objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
 cn: John Doe
+sn: John
 uid: john
-userPassword: {SHA}5en6G6MezRroT3XKqkdPOmY/BfQ=
+userPassword: secret
 
+dn: uid=jihn,ou=people,dc=memorynotfound,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Jihn Die
+sn: Jihn
+uid: jihn
+userPassword: secret
 
+#Группы
 dn: cn=developers,ou=groups,dc=memorynotfound,dc=com
 objectclass: top
 objectclass: groupOfUniqueNames
@@ -38,6 +60,3 @@ objectclass: groupOfUniqueNames
 cn: managers
 ou: manager
 uniqueMember: uid=john,ou=people,dc=memorynotfound,dc=com
-
-
-# password generator: http://aspirine.org/htpasswd_en.html

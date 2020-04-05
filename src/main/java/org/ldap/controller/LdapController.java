@@ -1,5 +1,6 @@
 package org.ldap.controller;
 
+import org.ldap.entity.Person;
 import org.ldap.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,38 +11,44 @@ import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class HomeController {
+import java.util.List;
 
-    private static Logger log = LoggerFactory.getLogger(HomeController.class);
+/**
+ * Контроллер обеспечивает доступ к ресурсу посредством репозитория.
+ */
+@RestController
+public class LdapController {
+
+    private static Logger log = LoggerFactory.getLogger(LdapController.class);
 
     @Autowired
     private PersonRepository personRepository;
 
     @GetMapping("/")
     public String index() {
-
-        log.info("Getting UsernamePasswordAuthenticationToken from SecurityContextHolder");
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken)
                         SecurityContextHolder.getContext().getAuthentication();
-
-        log.info("Getting principal from UsernamePasswordAuthenticationToken");
         LdapUserDetailsImpl principal = (LdapUserDetailsImpl) authentication.getPrincipal();
 
         log.info("authentication: " + authentication);
         log.info("principal: " + principal);
 
-        return "Spring Security + Spring LDAP Authentication Configuration Example";
+        return "Good authenticated!";
     }
 
     @GetMapping("/managers")
-    public String managers(){
-        return String.valueOf(personRepository.getPersonNamesByLastName2("John"));
+    public List<Person> managers() {
+        return personRepository.getAnyPersonsLikeName("J*hn");
     }
 
     @GetMapping("/employees")
-    public String employees(){
-        return "Hello employees";
+    public String employees() {
+        return "employees";
+    }
+
+    @GetMapping("/developers")
+    public String developers() {
+        return "developers";
     }
 }
