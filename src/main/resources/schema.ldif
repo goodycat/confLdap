@@ -53,6 +53,7 @@ objectclass: groupOfUniqueNames
 cn: developers
 ou: developer
 uniqueMember: uid=john,ou=people,dc=memorynotfound,dc=com
+uniqueMember: uid=jihn,ou=people,dc=memorynotfound,dc=com
 
 dn: cn=managers,ou=groups,dc=memorynotfound,dc=com
 objectclass: top
