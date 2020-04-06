@@ -1,7 +1,10 @@
 package org.ldap.service;
 
+import com.google.common.collect.Lists;
 import org.ldap.entity.Person;
+import org.ldap.entity.User;
 import org.ldap.repository.PersonRepository;
+import org.ldap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +16,15 @@ import java.util.List;
 @Service
 public class PersonServiceImpl implements PersonService {
     @Autowired
-    PersonRepository personRepository;
+    UserRepository userRepository;
 
     @Override
-    public List<Person> findAll() {
-        return personRepository.getAllPersons();
+    public List<User> findAll() {
+        return Lists.newArrayList(userRepository.findAll());
     }
 
     @Override
-    public Person findByName(String name) {
-        return personRepository.getPersonsByName(name);
+    public User findByName(String name) {
+        return userRepository.findBySn(name);
     }
 }

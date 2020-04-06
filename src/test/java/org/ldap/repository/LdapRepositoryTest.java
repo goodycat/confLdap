@@ -1,4 +1,4 @@
-package org.ldap;
+package org.ldap.repository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,20 +35,20 @@ public class LdapRepositoryTest {
     }
 
     @Test
-    public void testFindLikePersons(){
-       List<Person> list = personRepository.getAnyPersonsLikeName("J*hn");
-       assertEquals(2,list.size());
+    public void testFindLikePersons() {
+        List<Person> list = personRepository.getAnyPersonsLikeName("J*hn");
+        assertEquals(2, list.size());
     }
 
     @Test
-    public void testFindPersonsByName(){
+    public void testFindPersonsByName() {
         Person person = personRepository.getPersonsByName("John");
         assertEquals("John", person.getName());
     }
 
     @Test
     public void testFindPerson() {
-        Person person = personRepository.findPerson("uid=john,ou=people,dc=memorynotfound,dc=com");
+        Person person = personRepository.findPerson("uid=john,ou=people");
         assertNotNull(person);
         assertEquals(person.getName(), "John");
     }

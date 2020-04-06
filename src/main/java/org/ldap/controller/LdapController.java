@@ -1,7 +1,7 @@
 package org.ldap.controller;
 
 import org.ldap.entity.Person;
-import org.ldap.repository.PersonRepository;
+import org.ldap.entity.User;
 import org.ldap.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,17 +40,22 @@ public class LdapController {
     }
 
     @GetMapping("/managers")
-    public List<Person> managers() {
+    public List<User> managers() {
         return personService.findAll();
     }
 
-    @GetMapping("/employees")
-    public String employees() {
-        return "employees";
+    @GetMapping("/managers/{name}")
+    public User managers(@PathVariable("name") String name) {
+        return personService.findByName(name);
+    }
+
+    @GetMapping("/employees/{name}")
+    public String employees(@PathVariable("name") String name) {
+        return name;
     }
 
     @GetMapping("/developers/{name}")
-    public Person developers(@PathVariable("name") String name) {
-        return personService.findByName(name);
+    public String developers(@PathVariable("name") String name) {
+        return name;
     }
 }

@@ -3,7 +3,6 @@ package org.ldap.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.security.authentication.encoding.LdapShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -39,7 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .groupSearchBase("ou=groups")
                 .contextSource(contextSource())
                 .passwordCompare()
-//                .passwordEncoder(new LdapShaPasswordEncoder())
                 .passwordAttribute("userPassword");
     }
 
