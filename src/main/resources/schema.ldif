@@ -16,7 +16,7 @@ objectclass: organizationalUnit
 ou: people
 
 #Люди
-dn: uid=jahn,ou=people,dc=memorynotfound,dc=com
+dn: uid=jackson,ou=people,dc=memorynotfound,dc=com
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
@@ -52,7 +52,7 @@ objectclass: top
 objectclass: groupOfUniqueNames
 cn: developers
 ou: developer
-uniqueMember: uid=john,ou=people,dc=memorynotfound,dc=com
+uniqueMember: uid=jackson,ou=people,dc=memorynotfound,dc=com
 uniqueMember: uid=jihn,ou=people,dc=memorynotfound,dc=com
 
 dn: cn=managers,ou=groups,dc=memorynotfound,dc=com

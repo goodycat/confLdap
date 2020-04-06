@@ -2,6 +2,7 @@ package org.ldap.controller;
 
 import org.ldap.entity.Person;
 import org.ldap.repository.PersonRepository;
+import org.ldap.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class LdapController {
     private static Logger log = LoggerFactory.getLogger(LdapController.class);
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonService personService;
 
     @GetMapping("/")
     public String index() {
@@ -39,7 +41,7 @@ public class LdapController {
 
     @GetMapping("/managers")
     public List<Person> managers() {
-        return personRepository.getAnyPersonsLikeName("J*hn");
+        return personService.findAll();
     }
 
     @GetMapping("/employees")
@@ -47,8 +49,8 @@ public class LdapController {
         return "employees";
     }
 
-    @GetMapping("/developers")
-    public String developers() {
-        return "developers";
+    @GetMapping("/developers/{name}")
+    public Person developers(@PathVariable("name") String name) {
+        return personService.findByName(name);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.query.SearchScope;
 import org.springframework.ldap.support.LdapUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
@@ -21,7 +21,7 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 /**
  * Репозиторий формирует запросы к ресурсу.
  */
-@Service
+@Repository
 public class PersonRepository {
     private static final Integer THREE_SECONDS = 3000;
 
@@ -51,7 +51,7 @@ public class PersonRepository {
         return ldapTemplate.search(query, new PersonAttributesMapper());
     }
 
-    public List<Person> getPersonsByName(String name) {
+    public Person getPersonsByName(String name) {
         SearchControls sc = new SearchControls();
         sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
         sc.setTimeLimit(THREE_SECONDS);
@@ -61,12 +61,13 @@ public class PersonRepository {
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", "person"));
         filter.and(new EqualsFilter("sn", name));
-
-        return ldapTemplate.search(LdapUtils.emptyLdapName(), filter.encode(), sc, new PersonAttributesMapper());
+        return ldapTemplate
+                .search(LdapUtils.emptyLdapName(), filter.encode(), sc, new PersonAttributesMapper())
+                .get(0);
     }
 
     /**
-     * Custom person attributes mapper, maps the attributes to the person POJO
+     * Формирование POJO-объекта.
      */
     private static class PersonAttributesMapper implements AttributesMapper<Person> {
         @Override

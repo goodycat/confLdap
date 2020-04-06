@@ -42,8 +42,8 @@ public class LdapRepositoryTest {
 
     @Test
     public void testFindPersonsByName(){
-        List<Person> list = personRepository.getPersonsByName("John");
-        assertEquals(1,list.size());
+        Person person = personRepository.getPersonsByName("John");
+        assertEquals("John", person.getName());
     }
 
     @Test
